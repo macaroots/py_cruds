@@ -1,26 +1,7 @@
-import unittest
-import test.test_crud
+import test.test_dao
+import dao.mongo
 
-class CrudPessoasBD:
-	def __init__(self):
-		pass
-		
-	def criaDB(self, nome=None):
-		pass
-		
-	def apagaDB(self):
-		pass
-		
-	def lista(self):
-		pass
-		
-	def insere(self, pessoa):
-		pass
-		
-	def getById(self, id):
-		return self.lista()[id]
-
-class TestNovo(test.test_crud.TestCrud):
+class TestNovo(test.test_dao.TestDAO):
 	def getClasse(self):
-		return CrudPessoasBD
+		return dao.mongo.DAOPessoasMongo
 				
