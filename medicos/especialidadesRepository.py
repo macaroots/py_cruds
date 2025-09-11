@@ -1,6 +1,6 @@
 import mysql.connector
 
-class MedicosRepository:
+class EspecialidadesRepository:
     def __init__(self, host, usuario, senha, banco):
         self.host = host
         self.usuario = usuario
@@ -16,25 +16,25 @@ class MedicosRepository:
         )
         return conexao
     
-    def listarPorId(self, id):
+    def listar(self):
         conexao = self.conectar()
         cursor = conexao.cursor()
 
-        cursor.execute("SELECT * FROM medicos WHERE id = %s", [id])
+        cursor.execute("SELECT * FROM especialidades")
 
-        registro = cursor.fetchone()
+        registros = cursor.fetchall()
         cursor.close()
         conexao.close()
 
-        return registro
+        return registros
     
     def alterar(self, nome, crm, id):
         conexao = self.conectar()
 
         cursor = conexao.cursor()
 
-        sql = "UPDATE medicos SET nome=%s, crm=%s WHERE id=%s"
-        valores = (nome, crm, id)
+        sql = "UPDATE especialidades SET nome=%s WHERE id=%s"
+        valores = (nome, id)
         cursor.execute(sql, valores)
 
         conexao.commit()
@@ -44,20 +44,3 @@ class MedicosRepository:
         conexao.close()
 
         return total_afetados
-    
-    def listarComEspecialidades(self):
-        conexao = self.conectar()
-        cursor = conexao.cursor()
-
-        cursor.execute("""
-            SELECT m.nome, e.nome FROM medicos m
-                JOIN especialidades e
-                ON id_especialidade = e.id
-        """)
-
-        registros = cursor.fetchall()
-        cursor.close()
-        conexao.close()
-
-        return registros
-        
